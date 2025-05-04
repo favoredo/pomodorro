@@ -1,24 +1,31 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export default function PomodoroTimer() {
     const [value, setValue] = useState(0);
-    let timeout: NodeJS.Timeout | null = null;
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const changeValue = (val: number) => {
-        if (timeout) {
-            clearTimeout(timeout);
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current)
         }
         if (val > 0) {
             setValue(val);
-            timeout = setTimeout(() => {console.log(val); changeValue(val-1)}, 60*1000 /*1min*/);
+            timeoutRef.current = setTimeout(() => changeValue(val - 1), 60 * 1000 /*1min*/);
         }
         if (val === 0) {
             setValue(val);
-            console.log("Timedout!");
         }
     }
+
+    useEffect(() => {
+        return () => {
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
+        };
+    }, []);
 
     const scaleTextOffsets = ["-0.75%", "7.5%", "15.2%", "23.7%", "31.8%", "40%", "48.4%", "56.9%", "65%", "73.4%", "81.7%", "90.1%"];
 
