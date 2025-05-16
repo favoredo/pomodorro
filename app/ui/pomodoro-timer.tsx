@@ -55,7 +55,7 @@ export default function PomodoroTimer() {
             <g transform={"rotate(" + value * 6 + " 50 50 )"} className="duration-1000">
                 <foreignObject x="15" y="15" width="70" height="70">
                         <Image
-                            src="/tomato.svg"
+                            src={`${process.env.NEXT_PUBLIC_BASE_PATH}/tomato.svg`}
                             alt="Tomato Image"
                             width={819}
                             height={819}
