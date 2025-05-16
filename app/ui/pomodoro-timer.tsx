@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import basePath from '../../next.config';
 
 export default function PomodoroTimer() {
     const [value, setValue] = useState(0);
@@ -56,7 +55,7 @@ export default function PomodoroTimer() {
             <g transform={"rotate(" + value * 6 + " 50 50 )"} className="duration-1000">
                 <foreignObject x="15" y="15" width="70" height="70">
                         <Image
-                            src={`${basePath}/tomato.svg`}
+                            src="/tomato.svg"
                             alt="Tomato Image"
                             width={819}
                             height={819}
