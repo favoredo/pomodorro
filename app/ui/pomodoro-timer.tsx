@@ -52,15 +52,15 @@ export default function PomodoroTimer() {
                 <path d="M 50,6 A 44 44 0 1 1 50 94 A 44 44 0 1 1 50,6" className="fill-none stroke-none" id="textcircle" />
             </defs>
 
-            <g transform={"rotate(" + value * 6 + " 50 50 )"} className="duration-1000">
+            <g className={`transform rotate-${value * 6} origin-center duration-1000 ease-linear`}>
                 <foreignObject x="15" y="15" width="70" height="70">
-                        <Image
-                            src={`${process.env.NEXT_PUBLIC_BASE_PATH}/tomato.svg`}
-                            alt="Tomato Image"
-                            width={819}
-                            height={819}
-                        />
-                    </foreignObject>
+                    <Image
+                        src={`${process.env.NEXT_PUBLIC_BASE_PATH}/tomato.svg`}
+                        alt="Tomato Image"
+                        width={819}
+                        height={819}
+                    />
+                </foreignObject>
                 {/* arrow */}
                 <polygon points="50 16 48 21 52 21" className="fill-foreground stroke-none" />
             </g>

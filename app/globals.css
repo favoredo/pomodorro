@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@source inline("rotate-{0..359..6}");
+
 :root {
   --background: var(--color-neutral-50);
   --foreground: var(--color-neutral-950);
