@@ -6,38 +6,40 @@ import Image from 'next/image';
 export default function PomodoroTimer() {
     const [value, setValue] = useState(0);
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const [alarmSound, setAlarmSound] = useState<HTMLAudioElement | null>(null);
 
     const playAlarm = () => {
-        console.log("playing alarm");
-        // // Base64 encoded sound
-        // const sound = new Audio("data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAsAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV");
-
-        // sound.play().catch(e => {
-        //     console.error("Alarm play failed - user interaction required:", e);
-        //     // Show a button to allow manual play
-        // });
+        alarmSound?.play().catch(e => {
+            console.error("Alarm play failed - user interaction required:", e);
+        });
     };
 
     const changeValue = (val: number) => {
+        console.log(value, val);
         if (timeoutRef.current) {
             clearTimeout(timeoutRef.current)
         }
         if (val > 0) {
             setValue(val);
-            timeoutRef.current = setTimeout(() => changeValue(val - 1), 60 * 1000 /*1min*/);
-        }
-        if (val === 0) {
-            setValue(val);
-            playAlarm();
+            timeoutRef.current = setTimeout(() => changeValue(val - 1), 5 * 1000 /*1min*/);
+        } else if (val === 0) {
+            setValue(prev => {
+                if (prev !== 0) {
+                    playAlarm();
+                }
+                return 0;
+            });
         }
     }
 
     useEffect(() => {
-        return () => {
-            if (timeoutRef.current) {
-                clearTimeout(timeoutRef.current);
-            }
-        };
+        if (typeof window !== 'undefined') {
+            const sound = new Audio(`${process.env.NEXT_PUBLIC_BASE_PATH}/alarm.mp3`);
+            setAlarmSound(sound);
+        }
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
     }, []);
 
     const scaleTextOffsets = ["-0.75%", "7.5%", "15.2%", "23.7%", "31.8%", "40%", "48.4%", "56.9%", "65%", "73.4%", "81.7%", "90.1%"];
