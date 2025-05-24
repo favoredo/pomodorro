@@ -21,7 +21,7 @@ export default function PomodoroTimer() {
         }
         if (val > 0) {
             setValue(val);
-            timeoutRef.current = setTimeout(() => changeValue(val - 1), 5 * 1000 /*1min*/);
+            timeoutRef.current = setTimeout(() => changeValue(val - 1), 60 * 1000 /*1min*/);
         } else if (val === 0) {
             setValue(prev => {
                 if (prev !== 0) {
