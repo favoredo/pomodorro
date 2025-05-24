@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Pomodoro timer",
-  description: "The pomodoro technique implementation",
+  description: "Productivity technique implementation",
 };
 
 export default function RootLayout({
