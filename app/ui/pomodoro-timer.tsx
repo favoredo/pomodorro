@@ -15,7 +15,6 @@ export default function PomodoroTimer() {
     };
 
     const changeValue = (val: number) => {
-        console.log(value, val);
         if (timeoutRef.current) {
             clearTimeout(timeoutRef.current)
         }
