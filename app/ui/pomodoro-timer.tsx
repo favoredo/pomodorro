@@ -9,12 +9,13 @@ export default function PomodoroTimer() {
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
     const [alarmSound, setAlarmSound] = useState<HTMLAudioElement | null>(null);
     const [tiktakSound, setTiktakSound] = useState<HTMLAudioElement | null>(null);
+    const [takSound, setTakSound] = useState<HTMLAudioElement | null>(null);
 
     const playAlarm = () => {
         if (alarmSound) {
             alarmSound.currentTime = 0;
             alarmSound.play().catch(e => {
-                console.error("alarm play failed - user interaction required:", e);
+                console.error("alarm sound play failed:", e);
             });
         }
     };
@@ -23,7 +24,16 @@ export default function PomodoroTimer() {
         if (tiktakSound) {
             tiktakSound.currentTime = 0;
             tiktakSound.play().catch(e => {
-                console.error("tiktak play failed - user interaction required:", e);
+                console.error("tiktak sound play failed:", e);
+            });
+        }
+    }
+
+    const playTak = () => {
+        if (takSound) {
+            takSound.currentTime = 0;
+            takSound.play().catch(e => {
+                console.error("tak sound play failed:", e);
             });
         }
     }
@@ -40,6 +50,10 @@ export default function PomodoroTimer() {
             tiktakSound.pause();
             tiktakSound.currentTime = 0;
         }
+        if (takSound != null) {
+            takSound.pause();
+            takSound.currentTime = 0;
+        }
     }
 
     const changeValue = (val: number) => {
@@ -48,12 +62,14 @@ export default function PomodoroTimer() {
             stopSounds();
         }
         if (val > 0) {
+            playTak();
             setValue(val);
             timeoutRef.current = setTimeout(() => changeValue(val - 1), 60 * 1000 /*1min*/);
             intervalRef.current = setInterval(playTiktak, 1000 /*1sec*/);
         } else if (val === 0) {
             setValue(prev => {
                 if (prev !== 0) {
+                    playTak();
                     playAlarm();
                 }
                 return 0;
@@ -66,9 +82,14 @@ export default function PomodoroTimer() {
             const alarmSound = new Audio(`${process.env.NEXT_PUBLIC_BASE_PATH}/alarm.mp3`);
             alarmSound.volume = 0.2;
             setAlarmSound(alarmSound);
+            
             const tiktakSound = new Audio(`${process.env.NEXT_PUBLIC_BASE_PATH}/tiktak.mp3`);
             tiktakSound.volume = 0.2;
             setTiktakSound(tiktakSound);
+            
+            const takSound = new Audio(`${process.env.NEXT_PUBLIC_BASE_PATH}/tak.mp3`);
+            takSound.volume = 0.2;
+            setTakSound(takSound);
         }
         if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
@@ -90,7 +111,7 @@ export default function PomodoroTimer() {
                 <path d="M 50,6 A 44 44 0 1 1 50 94 A 44 44 0 1 1 50,6" className="fill-none stroke-none" id="textcircle" />
             </defs>
 
-            <g className={`transform rotate-${value * 6} origin-center duration-1000 ease-linear`}>
+            <g className={`transform rotate-${value * 6} origin-center duration-300 ease-linear`}>
                 <foreignObject x="15" y="15" width="70" height="70">
                     <Image
                         src={`${process.env.NEXT_PUBLIC_BASE_PATH}/tomato.svg`}
