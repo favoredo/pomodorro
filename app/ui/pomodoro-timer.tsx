@@ -103,9 +103,11 @@ export default function PomodoroTimer() {
 
     return (
         <svg
-            className="w-full h-full select-none"
+            className="w-full h-full select-none drag-none"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
+            onDragStart={(e) => e.preventDefault()}
+            onContextMenu={(e) => e.preventDefault()}
         >
             <defs>
                 <path d="M 50,6 A 44 44 0 1 1 50 94 A 44 44 0 1 1 50,6" className="fill-none stroke-none" id="textcircle" />
@@ -114,10 +116,14 @@ export default function PomodoroTimer() {
             <g className={`transform rotate-${value * 6} origin-center duration-300 ease-linear`}>
                 <foreignObject x="15" y="15" width="70" height="70">
                     <Image
+                        className="select-none drag-none"
                         src={`${process.env.NEXT_PUBLIC_BASE_PATH}/tomato.svg`}
                         alt="Tomato Image"
                         width={819}
                         height={819}
+                        draggable="false"
+                        onDragStart={(e) => e.preventDefault()}
+                        onContextMenu={(e) => e.preventDefault()}
                     />
                 </foreignObject>
                 {/* arrow */}
