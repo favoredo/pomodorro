@@ -15,7 +15,7 @@ export default function YandexMetrika() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       // Initialize Yandex Metrika function
-      window.ym = window.ym || function() {(window.ym.a = window.ym.a || []).push(arguments)};
+      window.ym = window.ym || function(...args) {(window.ym.a = window.ym.a || []).push(args)};
       window.ym.l = new Date().getTime();
 
       // Check if script already exists
