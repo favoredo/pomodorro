@@ -82,11 +82,11 @@ export default function PomodoroTimer() {
             const alarmSound = new Audio(`${process.env.NEXT_PUBLIC_BASE_PATH}/alarm.mp3`);
             alarmSound.volume = 0.2;
             setAlarmSound(alarmSound);
-            
+
             const tiktakSound = new Audio(`${process.env.NEXT_PUBLIC_BASE_PATH}/tiktak.mp3`);
             tiktakSound.volume = 0.2;
             setTiktakSound(tiktakSound);
-            
+
             const takSound = new Audio(`${process.env.NEXT_PUBLIC_BASE_PATH}/tak.mp3`);
             takSound.volume = 0.2;
             setTakSound(takSound);
@@ -103,7 +103,7 @@ export default function PomodoroTimer() {
 
     return (
         <svg
-            className="w-full h-full"
+            className="w-full h-full select-none"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
         >
